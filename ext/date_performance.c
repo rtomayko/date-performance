@@ -249,7 +249,7 @@ rb_date_strftime(int argc, VALUE * argv, VALUE self)
       sprintf(pb, "%04d-%02d-%02d", ic[0], ic[1], ic[2]);
     return buf;
   }
-  
+ 
   /* Use libc's strftime but only for Date class */
   if ( RBASIC(self)->klass == rb_cDate ){
     VALUE buf = rb_str_buf_new(128);
@@ -370,7 +370,6 @@ Init_date_performance() {
   id_numerator = rb_intern("numerator");
   id_denominator = rb_intern("denominator");
   id_strptime_without_performance = rb_intern("strptime_without_performance");
-  id_strftime_without_performance = rb_intern("strftime_without_performance");
 
   /* Rational Stuff */
   rb_require("rational");
