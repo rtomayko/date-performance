@@ -9,8 +9,9 @@ include FileUtils
 NAME = "Date::Performance"
 PACKAGE_NAME = 'date-performance'
 SUMMARY = "Adds some semblance of performance to Ruby's core Date class."
-REV = `svn log`.grep(/r\d+ \| \w+ \|/).length.to_s rescue nil
-VERS = ENV['VERSION'] || [ "0.3", REV ].compact.join('.')
+VERS = ENV['VERSION'] || eval(`grep 'VERSION =' < lib/date/performance.rb`.split(' = ').last)
+MAJOR_VERSION, MINOR_VERSION, REV = VERS.split('.')
+NEXT_VERSION = ENV['VERSION'] || [ MAJOR_VERSION, MINOR_VERSION, REV.to_i + 1 ].join('.')
 CLEAN.include [ "ext/*.{o,bundle}", "lib/*.{bundle,so,dll}" ]
 CLOBBER.include [ "ext/Makefile" ]
 
@@ -100,6 +101,12 @@ task :publish => [ "pkg/#{PACKAGE_NAME}-#{VERS}.gem", "pkg/#{PACKAGE_NAME}-#{VER
     rsync -aP #{t.prerequisites.join ' '} gem.naeblis.cx:#{gem_path}/ && \
     ssh gem.naeblis.cx 'cd #{File.dirname(gem_path)} && ruby /usr/local/bin/index_gem_repository.rb -v'
   end
+end
+
+desc "Set the version in lib/date/performance.rb to #{NEXT_VERSION}"
+task :bump do
+  sh "sed 's/VERSION = .*/VERSION = \"#{NEXT_VERSION}\"/' lib/date/performance.rb > .performance.rb"
+  mv ".performance.rb", "lib/date/performance.rb"
 end
 
 desc "Install using Ruby Gems"
