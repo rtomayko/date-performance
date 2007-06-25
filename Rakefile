@@ -120,13 +120,6 @@ task :uninstall => [:clean] do
   sh "sudo gem uninstall #{NAME}"
 end
 
-desc "Generate the ChangeLog file"
-task 'ChangeLog' do |f|
-  sh "svn -q up && svn2cl --linelen=78 --group-by-day --separate-daylogs --break-before-msg=2 --authors=AUTHORS" do |ok,res|
-    STDERR.puts "WARNING: Could not generate ChangeLog." if ! ok
-  end
-end
-
 # Misc / Temporary ================================================================================
 
 desc 'Measures test coverage'
