@@ -191,7 +191,7 @@ rb_date_new(int argc, VALUE * argv, VALUE self) {
   struct mini_tm t;
   jd_to_civil(jd, sg, &t);
   if ( t.y != y || t.m != m || t.d != d ) {
-    rb_raise(rb_eArgError, "invalid date");
+    rb_raise(rb_eArgError, "Invalid date: (%d, %d, %d)", y, m, d);
     return Qnil;
   }else{
     VALUE ajd = jd_to_ajd(jd, INT2FIX(0), INT2FIX(0));
