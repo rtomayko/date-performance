@@ -370,6 +370,7 @@ Init_date_performance() {
   id_numerator = rb_intern("numerator");
   id_denominator = rb_intern("denominator");
   id_strptime_without_performance = rb_intern("strptime_without_performance");
+  id_strftime_without_performance = rb_intern("strftime_without_performance");
 
   /* Rational Stuff */
   rb_require("rational");

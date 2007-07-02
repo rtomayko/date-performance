@@ -92,7 +92,8 @@ class ExtensionTest < Test::Unit::TestCase
   end
 
   def test_strftime_with_datetime
-    DateTime.new
+    dt = DateTime.new(2007, 1, 1, 4, 20, 00)
+    assert_equal "2007-01-01T04:20:00+00:00", dt.strftime("%FT%T%:z")
   end
 
 end
