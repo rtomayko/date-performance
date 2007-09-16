@@ -4,3 +4,9 @@ lib/date_performance.bundle
 lib/date_performance.so
 lib/date_performance.dll
 pkg
+doc/index.html
+doc/license.html
+doc/changes.html
+doc/api
+doc/src
+dist

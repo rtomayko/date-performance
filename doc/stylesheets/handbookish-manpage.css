@@ -1,0 +1,36 @@
+/* Overrides for manpage documents */
+body { 
+  font-family: 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', monospace;
+  color:#555;
+}
+tt { 
+  font-family:'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', monospace;
+  font-weight:bold;
+  font-size:100%;                       /* overrides base stylesheet */
+}
+em { 
+  font-style:normal;
+  color:#222;
+}
+dt { font-weight:bold; color:#000 }
+
+h1 {
+  font-size:1.714em;                     /* 24px */
+  line-height:1.666;                     /* 40px */
+  margin:1.666em 0;                      /* 40px */
+  padding: 0.3333em 0;                   /* 8px */
+  border-bottom:0.08333em solid #fff;    /* 2px */
+  border-top:0.08333em solid #fff;       /* 2px */
+  text-align:center;
+}
+h2 {
+  font-size:1.142em;                     /* 16px */
+  line-height:1.25;                      /* 20px baseline */
+  margin:1.25em 0;                       /* 20px */
+  border-bottom:0;                       
+  border-top:0;
+}
+div.sectionbody {
+  margin-left: 5%;
+}
+

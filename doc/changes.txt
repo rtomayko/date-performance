@@ -1,0 +1,7 @@
+:author:!
+= {project-name} ChangeLog
+
+[changelog]
+source~~~~~~~~~~~~~~~~~
+include::../ChangeLog[]
+source~~~~~~~~~~~~~~~~~

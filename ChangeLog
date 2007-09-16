@@ -1,238 +1,80 @@
-2007-04-14  Ryan Tomayko <rtomayko@gmail.com>
+2007-09-16  Ryan Tomayko <rtomayko@gmail.com>
 
-	* ext/date_performance.c, ext/extconf.rb:
-	  
-	  Use long instead of int when playing with AJD's and fix C99 warnings
+	* lib/date/performance.rb: [12] Version 0.4.2
 
-	* ext/date_performance.c, test/extension_test.rb:
-	  
-	  Only use system's strftime when self is Date (punt on DateTime and
-	  other subclasses)
+2007-07-02  Ryan Tomayko <rtomayko@gmail.com>
 
-2007-04-12  Ryan Tomayko <rtomayko@gmail.com>
+	* ext/date_performance.c,
+	* lib/date/performance.rb,
+	* test/extension_test.rb: [11] Fix that strftime_without_performance
+	ID was never being initialized and causing a NULL pointer error when
+	strftime had to pass down to the original method
 
-	* ext/date_performance.c, test/extension_test.rb:
-	  
-	  Call mktime before strftime so that tm_wday and tm_yday get filled
-	  in
+2007-06-25  Ryan Tomayko <rtomayko@gmail.com>
 
-2007-04-10  Ryan Tomayko <rtomayko@gmail.com>
+	* .bzrignore: [10] ignore pkg directory
 
-	* ext/date_performance.c, test/extension_test.rb:
-	  
-	  Raise a TypeError when Date.civil called with explicit nil
-	  parameters
+	* Rakefile: [9] get rid of ChangeLog task until we can implement w/
+	bzr
 
-2007-04-06  Ryan Tomayko <rtomayko@gmail.com>
+2007-06-25  Ryan Tomayko <rtomayko@gmail.com>
 
-	* Rakefile:
-	  
-	  Don't run benchmarks with test target and only run 1.8.5 tests if
-	  misc/date-1.8.5 directory exists
+	* README.txt: Renamed to README.
 
-	* Rakefile, test/benchmarks.rb:
-	  
-	  Add benchmark script
+	[8] move this back over... was just testing something w/ lighttpd
 
-	* ext/date_performance.c, test/extension_test.rb:
-	  
-	  Fast path default format parsing in strptime
+2007-06-25  Ryan Tomayko <rtomayko@gmail.com>
 
-	* ext/date_performance.c, lib/date/performance.rb:
-	  
-	  Replace Date#strftime and Date::strptime with there libc
-	  counterparts but fall back on the original Ruby implementations
+	* lib/date/performance.rb: [7] bump version to 0.4.0
 
-2007-04-04  Ryan Tomayko <rtomayko@gmail.com>
+	* ext/date_performance.c: [6] Report information on bad dates
 
-	* test/date_memoize_test.rb:
-	  
-	  Fix memoization unit tests under Ruby 1.8.5
+	* Rakefile: [5] don't rely on subversion to establish version
 
-	* ext/date_performance.c, test/date_memoize_test.rb,
-	  test/extension_test.rb:
-	  
-	  Fix warnings related to accessing @__civil__ before being set
+2007-06-23  Ryan Tomayko <rtomayko@gmail.com>
 
-	* Rakefile:
-	  
-	  Run unit tests as part of GEM
+	* ext/date_performance.c: [4] Remove dupe line
 
-	* Rakefile:
-	  
-	  Bump to version 0.3
+2007-06-23  Ryan Tomayko <rtomayko@gmail.com>
 
-	* ext/date_performance.c, test/extension_test.rb:
-	  
-	  Fix DateTime brokeness after performance extension loaded
+	* .bzrignore: Added.
 
-2007-04-03  Ryan Tomayko <rtomayko@gmail.com>
+	[3] ignore stuff
 
-	* lib/date/performance.rb, test/date_memoize_test.rb:
-	  
-	  Misc tweaks to try to fix odd Date::Memoize issue
+2007-06-23  Ryan Tomayko <rtomayko@gmail.com>
 
-	* ext/date_performance.c:
-	  
-	  Ruby 1.8.5 support
+	* README: Renamed to README.txt.
 
-2007-04-01  Ryan Tomayko <rtomayko@gmail.com>
+	[2] Rename README as README.txt
 
-	* README:
-	  
-	  misc formatting
+2007-06-23  Ryan Tomayko <rtomayko@gmail.com>
 
-	* README, Rakefile:
-	  
-	  add AUTHORS file to Gem and rdoc
+	* AUTHORS,
+	* BENCHMARKS,
+	* COPYING,
+	* ChangeLog,
+	* README,
+	* Rakefile,
+	* ext,
+	* ext/date_performance.c,
+	* ext/extconf.rb,
+	* lib,
+	* lib/date,
+	* lib/date/memoize.rb,
+	* lib/date/performance.rb,
+	* misc,
+	* misc/date-1.8.5,
+	* misc/date-1.8.5/date,
+	* misc/date-1.8.5/date.rb,
+	* misc/date-1.8.5/date/format.rb,
+	* misc/date-1.8.5/date2.rb,
+	* misc/date_patch.rb,
+	* session.vim,
+	* test,
+	* test/benchmarks.rb,
+	* test/date_memoize_test.rb,
+	* test/extension_test.rb: Added.
 
-	* Rakefile:
-	  
-	  Include extension in Gem
-
-	* README:
-	  
-	  clean up README after name change to Date::Performance
-
-	* ext/date_performance.c, lib/date/performance.rb:
-	  
-	  misc formatting
-
-	* Rakefile:
-	  
-	  sed 's/Memoization/Performance/g' Rakefile
-
-	* README, Rakefile:
-	  
-	  spelling
-
-	* .:
-	  
-	  svn:ignore misc generated stuff in root.
-
-	* ChangeLog:
-	  
-	  Don't store ChangeLog in repository... I keep going back and forth
-	  on this.
-
-	* date-memoize, .:
-	  
-	  Moving date-memoize project to date-performance
-
-	* date-memoize/Rakefile:
-	  
-	  Add another line break between files and commit message in ChangeLog
-
-	* date-memoize/Rakefile:
-	  
-	  Tweak package file list
-
-	* date-memoize/README, date-memoize/Rakefile,
-	  date-memoize/ext/date_fast.c, date-memoize/ext/date_performance.c,
-	  date-memoize/ext/extconf.rb, date-memoize/lib/date/fast.rb,
-	  date-memoize/lib/date/memoize.rb,
-	  date-memoize/lib/date/performance.rb,
-	  date-memoize/test/extension_test.rb:
-	  
-	  Let's call this thing Date::Performance. Renamed extension from
-	  date_fast to date_performance; main file is now at date/performance.
-
-	* date-memoize/AUTHORS:
-	  
-	  add AUTHORS file for ChangeLog
-
-	* date-memoize/ChangeLog, date-memoize/ext/date_fast.c,
-	  date-memoize/test/extension_test.rb:
-	  
-	  Add experimental Date#sys_strftime and Date::sys_strptime C
-	  implementations that use strftime(2) and strptime(2) functions,
-	  respectively. All kinds of problems with this, including not being
-	  able to handle dates < 1902 or > 20
-
-	* date-memoize/Rakefile:
-	  
-	  More ChangeLog generation tweaks
-
-	* date-memoize/Rakefile:
-	  
-	  Warn when ChangeLog generation fails but don't fail.
-
-	* date-memoize/ext/date_fast.c:
-	  
-	  Fix compiler warnings for pointer/int conversion
-
-2007-03-31  Ryan Tomayko <rtomayko@gmail.com>
-
-	* date-memoize/ext, date-memoize/lib:
-	  
-	  Ignore generated shared libs
-
-	* date-memoize/Rakefile:
-	  
-	  Make default take test compile the extension and run unit tests
-
-	* date-memoize/ext/date_fast.c, date-memoize/test/extension_test.rb:
-	  
-	  Implement Date#civil in C. If the Date is created with civil
-	  parameters, pass them on to the instance instead of having to
-	  calculate them from AJD.
-
-	* date-memoize/Rakefile:
-	  
-	  Tidy up CLEAN and CLOBBER
-
-	* date-memoize/Rakefile:
-	  
-	  Bump version to 0.2
-
-	* date-memoize/Rakefile, date-memoize/ext,
-	  date-memoize/ext/date_fast.c, date-memoize/ext/extconf.rb,
-	  date-memoize/lib/date/fast.rb, date-memoize/lib/date/memoize.rb,
-	  date-memoize/test/extension_test.rb:
-	  
-	  Add date_fast C extension and tests. Initial implementation speeds
-	  up the following Date singleton methods by providing implementations
-	  in C:
-	  
-	  * Date::civil_to_jd
-	  * Date::jd_to_civil
-	  * Date::jd_to_ajd
-	  * Date::new
-	  
-	  Benchmarks are showing somewhere around an 80% gain in creation
-	  performance
-	  when using Date::new, Date::civil, Date::jd.
-
-2007-03-27  Ryan Tomayko <rtomayko@gmail.com>
-
-	* date-memoize/Rakefile:
-	  
-	  add a publish task for pushing gem out to gem.naeblis.cx
-
-2007-03-26  Ryan Tomayko <rtomayko@gmail.com>
-
-	* date-memoize, date_memoize:
-	  
-	  moving date_memoize to data-memoize for consistency with gem
-
-	* date_memoize/COPYING, date_memoize/ChangeLog, date_memoize/README,
-	  date_memoize/lib/date/memoize.rb:
-	  
-	  trying to fill in some basic documentation
-
-	* date_memoize/Rakefile:
-	  
-	  Fix up ChangeLog generation gem package name
-
-	* date_memoize/COPYING, date_memoize/ChangeLog, date_memoize/README,
-	  date_memoize/Rakefile, date_memoize/lib, date_memoize/lib/date,
-	  date_memoize/lib/date/memoize.rb, date_memoize/session.vim,
-	  date_memoize/test, date_memoize/test/benchmarks.rb,
-	  date_memoize/test/date_memoize_test.rb:
-	  
-	  Initial commit of Date::Memoize sources... We'll call this 0.1
-
-	* date_memoize:
-	  
-	  Creating new project directory for Date::Memoize.
+	[1] Initial commit of date-performance sources into bzr. See ChangeLog
+	for subversion era changes
 

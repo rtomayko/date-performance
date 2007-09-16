@@ -1,0 +1,119 @@
+body {
+  font-size:87.5%;                /* 1em = 14px */
+  line-height:1.4285;             /* 20px baseline */
+  margin:2.85em;                  /* 40px margins */
+  max-width:51.42857em;           /* 720px max width */
+  font-family: 'Lucida Grande', 'Verdana', 'Helvetica', sans-serif;
+  color:#222;
+}
+
+em { font-style: italic }
+strong { font-weight: bold }
+tt { color:#007A00 }
+dt { font-weight:bold }
+
+h1, h2, h3, h4, h5 { 
+  font-family: Verdana, Helvetica, sans-serif ;
+  color:#900 ;
+}
+
+h1 {
+  font-size:2.857em;                  /* 40px */
+  line-height:1.5;                    /* 60px */
+  border-bottom:0.05em;               /* 2px; */
+  margin:0.5em 0;                     /* 20px */
+}
+
+h2 { 
+  font-size:2.285em;                  /* 32px */
+  line-height:1.25;                   /* 40px */
+  border-bottom:0.0625em solid #fff;  /* 2px border */
+  margin:0.906em 0;                   /* 29px margin */
+}
+
+h3 { 
+  font-size:1.714em;                  /* 24px */
+  line-height:1.666;                  /* 40px */
+  border-bottom:0.0833em solid #fff;  /* 2px border */
+  margin:0.75em 0;                    /* 18px */
+}
+
+h4 {
+  font-size:1.142em;                  /* 16px */
+  line-height:1.25;                   /* 20px */
+  border-bottom:0;
+  margin:1.25em 0;                    /* 20px */
+}
+
+pre { 
+  font-size:1.1666em;
+  line-height:1.333;
+}
+
+pre tt { color:#000 }
+
+p, ul, ol, dl { 
+  margin:1.4285em 0;                  /* 20px */
+}
+
+dl {
+  margin-left:2.857em;
+}
+
+.title, .sidebar-title { 
+  font-weight: bold;
+  margin-bottom:0;
+}
+
+.admonitionblock { margin:1.4285em; }
+
+.admonitionblock td.icon {
+  width:2.857em;                     /* 40px */
+  padding-right:1.4285em;
+}
+
+.listingblock .content {
+  border: 1px solid silver;
+  background: #f4f4f4;
+  padding: 0.7142em;                /* 10px */
+}
+
+.listingblock .content pre { margin:0 }
+.literalblock .content { margin-left:2.8568em; }
+
+.verseblock .content { white-space: pre }
+
+.sidebarblock .sidebar-content {
+  border: 1px solid silver;
+  background: #FFFFEE;
+  padding: 0 1.428em;               /* 20px */
+  color:#222;
+}
+.sidebar-title {
+  margin: 1.125em 0;
+}
+
+.quoteblock-content { 
+  font-style:normal; 
+  color:#555;
+  margin-left:2.857em;
+}
+.quoteblock-content .attribution { 
+  font-style: normal;
+  text-align:right;
+  color:#000;
+}
+
+.exampleblock-content *:first-child { margin-top:0 }
+.exampleblock-content { 
+  border-left:2px solid silver; 
+  padding-left:0.712em;
+}
+
+#footer {
+  font-size:0.857em;                  /* 12px */
+  line-height:1.666;                  /* 20px */
+  margin-top:3.333em;                 /* 40px */
+  border-top:1px solid silver;
+  color:#555;
+}
