@@ -1,5 +1,55 @@
 2007-09-16  Ryan Tomayko <rtomayko@gmail.com>
 
+	* doc,
+	* doc/asciidoc.conf,
+	* doc/changes.txt,
+	* doc/images,
+	* doc/images/icons,
+	* doc/images/icons/callouts,
+	* doc/images/icons/callouts/1.png,
+	* doc/images/icons/callouts/10.png,
+	* doc/images/icons/callouts/11.png,
+	* doc/images/icons/callouts/12.png,
+	* doc/images/icons/callouts/13.png,
+	* doc/images/icons/callouts/14.png,
+	* doc/images/icons/callouts/15.png,
+	* doc/images/icons/callouts/2.png,
+	* doc/images/icons/callouts/3.png,
+	* doc/images/icons/callouts/4.png,
+	* doc/images/icons/callouts/5.png,
+	* doc/images/icons/callouts/6.png,
+	* doc/images/icons/callouts/7.png,
+	* doc/images/icons/callouts/8.png,
+	* doc/images/icons/callouts/9.png,
+	* doc/images/icons/caution.png,
+	* doc/images/icons/example.png,
+	* doc/images/icons/home.png,
+	* doc/images/icons/important.png,
+	* doc/images/icons/next.png,
+	* doc/images/icons/note.png,
+	* doc/images/icons/prev.png,
+	* doc/images/icons/tip.png,
+	* doc/images/icons/up.png,
+	* doc/images/icons/warning.png,
+	* doc/index.txt,
+	* doc/license.txt,
+	* doc/stylesheets,
+	* doc/stylesheets/handbookish-manpage.css,
+	* doc/stylesheets/handbookish-quirks.css,
+	* doc/stylesheets/handbookish.css,
+	* misc/asciidoc.rake,
+	* misc/project.rake: Added.
+
+	* .bzrignore,
+	* COPYING,
+	* ChangeLog,
+	* README,
+	* Rakefile: Modified.
+
+	[13] bring in ruby-project template files at r24 and add site docs.
+
+2007-09-16  Ryan Tomayko <rtomayko@gmail.com>
+
 	* lib/date/performance.rb: [12] Version 0.4.2
 
 2007-07-02  Ryan Tomayko <rtomayko@gmail.com>
