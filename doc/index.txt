@@ -138,6 +138,4 @@ versions (see *Date::Memoization* for details). The best way to determine
 whether memoization is right for you is to add it to your project and see 
 what happens.
 
-Supported Systems
------------------
-
+// vim: ft=asciidoc
