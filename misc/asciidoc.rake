@@ -72,14 +72,17 @@ class AsciiDocTasks
   end
 
   def define!
-    task @task_name => "#{task_name}:build"
+    task task_name => "#{task_name}:build"
+    task "#{task_name}:clean"
+    task "#{task_name}:build"
+    task "#{task_name}:rebuild"
+    task :clean => "#{task_name}:clean"
     source_and_destination_files.each do |source,dest|
       file dest => [ source, config_file ].compact do |f|
         asciidoc source, dest, options
       end
       task("#{task_name}:build" => dest)
       task("#{task_name}:clean") { rm_f dest }
-      task(:clean => "#{task_name}:clean")
       task("#{task_name}:rebuild" => [ "#{task_name}:clean", "#{task_name}:build" ])
     end
   end

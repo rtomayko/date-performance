@@ -203,6 +203,9 @@ class Project
   # Any additional files to include in the package.
   attr_accessor :extra_files
 
+  # Native extension files. Default: <tt>FileList['ext/**/*.{c,h,rb}']</tt>.
+  attr_accessor :extension_files
+
   # An Array of gem dependencies. The #depends_on is the simplest way of getting
   # new dependencies defined.
   attr_accessor :dependencies
@@ -229,7 +232,8 @@ class Project
   # Generate README file based on project information.
   attr_accessor :generate_readme
 
-  file_list_attr_writer :tests, :lib_files, :doc_files, :extra_files, :rdoc_files
+  file_list_attr_writer :tests, :lib_files, :doc_files, :extra_files, :rdoc_files,
+    :extension_files
 
   def initialize(project_name, options={}, &b)
     self.class.current ||= self
@@ -248,6 +252,7 @@ class Project
     @rdoc_files = Rake::FileList['{README,LICENSE,COPYING}*']
     @package_dir = 'dist'
     @extra_files = Rake::FileList['Rakefile', 'Change{Log,s}*', 'NEWS*', 'misc/*.rake']
+    @extension_files = nil
     @project_url = nil
     @dependencies = []
     @remote_dist_location, @remote_doc_location, @remote_branch_location = nil
@@ -341,12 +346,19 @@ class Project
 
   def doc_files #:nodoc:
     read_attr(:doc_files) { 
-      FileList["doc/**/*"] - FileList["#{rdoc_dir}/**/*", rdoc_dir]
-    }
+      FileList["doc/**/*"] - FileList["#{rdoc_dir}/**/*", rdoc_dir] }
   end
 
   def rdoc_dir #:nodoc:
     read_attr(:rdoc_dir) { File.join(doc_dir, 'api') }
+  end
+
+  def extensions_dir
+    'ext'
+  end
+
+  def extension_files
+    read_attr(:extension_files) { FileList["#{extensions_dir}/**/*.{h,c,rb}"] }
   end
 
   def author #:nodoc:
@@ -378,7 +390,8 @@ class Project
   # All files to be included in built packages. This includes +lib_files+,
   # +tests+, +rdoc_files+, +programs+, and +extra_files+.
   def package_files
-    (rdoc_files + lib_files + tests + doc_files + programs + extra_files).uniq
+    (rdoc_files + lib_files + tests + doc_files + 
+     programs + extra_files + extension_files).uniq
   end
 
   # The basename of the current distributable package.
@@ -451,6 +464,7 @@ public
       s.test_files = tests
       s.bindir = bin_dir
       s.executables = programs.map{|p| File.basename(p)}
+      s.extensions = FileList['ext/**/extconf.rb']
       s.has_rdoc = true
       s.extra_rdoc_files = rdoc_files
       s.rdoc_options.concat(rdoc_options)
@@ -663,9 +677,10 @@ private
         task 'doc:source:build' => html_file
       end
     elsif verbose
+      warn "WARNING: GNU source-highlight not available. #{source_highlight_dir} will not be built." if Rake::application.options.trace
       desc "Generate syntax colored HTML source (not available)"
       task 'doc:source'
-      warn "GNU source-highlight not available. #{source_highlight_dir} will not be built."
+      task 'doc:source:build'
     end
 
     task('doc:source:clean') { rm_rf source_highlight_dir }
@@ -698,29 +713,30 @@ private
 
   # Defines tasks for building HTML documentation with AsciiDoc.
   def define_asciidoc_tasks
-    namespace :doc do
-      if defined?(AsciiDocTasks) && File.exist?("#{doc_dir}/asciidoc.conf") && asciidoc_available?
-        man_pages = FileList["#{doc_dir}/*.[0-9].txt"]
-        articles = FileList["#{doc_dir}/*.txt"] - man_pages
-        desc "Build AsciiDoc under #{doc_dir}"
-        AsciiDocTasks.new(:asciidoc) do |t|
-          t.source_dir = doc_dir
-          t.source_files = articles
-          t.doc_type = :article
-          t.config_file = "#{doc_dir}/asciidoc.conf"
-          t.attributes = asciidoc_attributes
-        end
-        AsciiDocTasks.new(:asciidoc) do |t|
-          t.source_dir = doc_dir
-          t.source_files = man_pages
-          t.doc_type = :manpage
-          t.config_file = "#{doc_dir}/asciidoc.conf"
-          t.attributes = asciidoc_attributes
-        end
-      else
-        desc "Build AsciiDoc (disabled)"
-        task 'asciidoc'
+    if defined?(AsciiDocTasks) && File.exist?("#{doc_dir}/asciidoc.conf") && asciidoc_available?
+      man_pages = FileList["#{doc_dir}/*.[0-9].txt"]
+      articles = FileList["#{doc_dir}/*.txt"] - man_pages
+      desc "Build AsciiDoc under #{doc_dir}"
+      AsciiDocTasks.new('doc:asciidoc') do |t|
+        t.source_dir = doc_dir
+        t.source_files = articles
+        t.doc_type = :article
+        t.config_file = "#{doc_dir}/asciidoc.conf"
+        t.attributes = asciidoc_attributes
       end
+      AsciiDocTasks.new('doc:asciidoc') do |t|
+        t.source_dir = doc_dir
+        t.source_files = man_pages
+        t.doc_type = :manpage
+        t.config_file = "#{doc_dir}/asciidoc.conf"
+        t.attributes = asciidoc_attributes
+      end
+    else
+      desc "Build AsciiDoc (disabled)"
+      task 'asciidoc'
+      task 'asciidoc:build'
+      task 'asciidoc:clean'
+      task 'asciidoc:rebuild'
     end
     task 'doc:build' => 'doc:asciidoc:build'
     task 'doc:clean' => 'doc:asciidoc:clean'
