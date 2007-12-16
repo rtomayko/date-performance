@@ -242,12 +242,14 @@ class Project
     @version_file = nil
     @version_pattern = /^\s*VERSION\s*=\s*['"]([\.\d]+)['"]/
     @summary, @description, @package_name = nil
+    @author, @author_email, @author_name = nil
     @bin_dir, @programs = nil
     @test_dir, @tests = nil
     @test_pattern = 'test/**/*_test.rb'
     @lib_dir = 'lib'
     @lib_files = nil
     @doc_dir = 'doc'
+    @doc_files = nil
     @rdoc_dir = nil
     @rdoc_files = Rake::FileList['{README,LICENSE,COPYING}*']
     @package_dir = 'dist'
@@ -276,6 +278,8 @@ class Project
   def package_name #:nodoc:
     read_attr(:package_name) { name.downcase.gsub(/[:\s]+/, '-') }
   end
+
+  undef version
 
   def version #:nodoc:
     read_attr(:version, true) { read_version_from_version_file }
@@ -357,9 +361,13 @@ class Project
     'ext'
   end
 
+  undef extension_files
+
   def extension_files
     read_attr(:extension_files) { FileList["#{extensions_dir}/**/*.{h,c,rb}"] }
   end
+
+  undef author
 
   def author #:nodoc:
     read_attr(:author, true) { 
@@ -373,9 +381,13 @@ class Project
     }
   end
 
+  undef :author_name
+
   def author_name #:nodoc:
     read_attr(:author_name) { author && author[/[^<]*/].strip }
   end
+
+  undef :author_email
 
   def author_email #:nodoc:
     read_attr(:author_email) { 
@@ -774,13 +786,19 @@ private
 
 public
 
+  undef :remote_dist_location=
+
   def remote_dist_location=(value) #:nodoc:
     @remote_dist_location = RemoteLocation[value]
   end
 
+  undef :remote_doc_location=
+
   def remote_doc_location=(value) #:nodoc:
     @remote_doc_location = RemoteLocation[value]
   end
+
+  undef :remote_branch_location=
 
   def remote_branch_location=(value) #:nodoc:
     @remote_branch_location = RemoteLocation[value]

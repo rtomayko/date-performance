@@ -97,6 +97,8 @@ private
     source_files.zip(destination_files)
   end
 
+  undef :config_file
+
   def config_file
     @config_file || 
       if File.exist?("#{source_dir}/asciidoc.conf") 
