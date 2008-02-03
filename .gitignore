@@ -2,3 +2,9 @@
 *.o
 ext/Makefile
 dist
+*.swp
+doc/api
+doc/changes.html
+doc/index.html
+doc/license.html
+doc/src

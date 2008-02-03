@@ -8,6 +8,7 @@ Project.new "Date::Performance" do |p|
   p.project_url = "http://tomayko.com/src/date-performance/"
   p.extra_files.include "ext/**/*.{rb,c,h}", "AUTHORS", "BENCHMARKS"
   p.configure_package {|spec| spec.extensions = FileList["ext/**/extconf.rb"].to_a }
+  p.author = 'Ryan Tomayko <rtomayko@gmail.com>'
 
   p.remote_dist_location   = "tomayko.com:/dist/#{p.package_name}"
   p.remote_branch_location = "tomayko.com:/src/#{p.package_name}"
