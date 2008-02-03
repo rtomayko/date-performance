@@ -1,0 +1,4 @@
+*.bundle
+*.o
+ext/Makefile
+dist
