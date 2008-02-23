@@ -11,7 +11,7 @@ Project.new "Date::Performance" do |p|
   p.author = 'Ryan Tomayko <rtomayko@gmail.com>'
 
   p.remote_dist_location   = "tomayko.com:/dist/#{p.package_name}"
-  p.remote_branch_location = "tomayko.com:/src/#{p.package_name}"
+  p.remote_branch_location = "tomayko.com:/src/#{p.package_name}.git"
   p.remote_doc_location    = "tomayko.com:/src/#{p.package_name}"
 end
 
@@ -19,6 +19,10 @@ task :default => [ :compile, :test ]
 
 file 'ChangeLog' => FileList['.bzr/*'] do |f|
   sh "bzr log -v --gnu > #{f.name}"
+end
+
+file 'doc/index.txt' => 'README.txt' do |f|
+  cp 'README.txt', f.name
 end
 
 file 'doc/changes.html' => 'ChangeLog'

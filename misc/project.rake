@@ -224,9 +224,9 @@ class Project
   # should be of the form host.domain:/path/to/dir
   attr_accessor :remote_doc_location
 
-  # The remote location where bazaar branches should be published. This should
-  # be of the form host.domain:/path/to/dir. The local .bzr directory is copied 
-  # to a .bzr sub-directory.
+  # The remote location where the git repo should be published. This should
+  # be of the form host.domain:/path/to/dir.git The local .git directory is copied 
+  # to the destination directly.
   attr_accessor :remote_branch_location
 
   # Generate README file based on project information.
@@ -659,50 +659,6 @@ private
     task 'doc:rebuild' => 'doc:api:rebuild'
   end
 
-  # Source Highlight Tasks ==================================================
-
-  def source_highlight_dir 
-    "#{doc_dir}/src"
-  end
-
-  def source_highlight_available?
-    @source_highlight_available ||= 
-      system("source-highlight --version > /dev/null 2>&1")
-  end
-
-  def define_source_highlight_tasks
-    if source_highlight_available?
-      desc "Generate syntax colored HTML source under #{source_highlight_dir}"
-      task 'doc:source'
-      lib_files.each do |source_file|
-        html_file = "#{source_highlight_dir}/#{source_file}.html"
-        output_dir = File.dirname(html_file)
-        directory output_dir
-        file html_file => [ source_file, output_dir ] do |f|
-          sh [ "source-highlight",
-            "-s ruby",
-            "--line-number-ref=''",
-            "--title='#{project_name} - #{source_file}'",
-            "--output-dir=#{output_dir} #{source_file}"
-          ].join(' ')
-        end
-        task 'doc:source:build' => html_file
-      end
-    elsif verbose
-      warn "WARNING: GNU source-highlight not available. #{source_highlight_dir} will not be built." if Rake::application.options.trace
-      desc "Generate syntax colored HTML source (not available)"
-      task 'doc:source'
-      task 'doc:source:build'
-    end
-
-    task('doc:source:clean') { rm_rf source_highlight_dir }
-    task('doc:source:rebuild' => 'doc:source:clean') { Rake::Task['doc:source:build'].invoke }
-    task('doc:build'   => 'doc:source:build')
-    task('doc:rebuild' => 'doc:source:rebuild')
-    task('doc:clean'   => 'doc:source:clean')
-  end
-
-
   # AsciiDoc Tasks ==========================================================
 
   def asciidoc_available?
@@ -826,7 +782,7 @@ private
   end
 
   def publish_branch_command
-    "rsync -azP --delete --hard-links .bzr #{remote_branch_location}"
+    "rsync -azP --delete --hard-links .git/ #{remote_branch_location}"
   end
 
   def define_publish_tasks
@@ -842,9 +798,9 @@ private
       task 'publish' => 'publish:packages'
     end
 
-    if remote_branch_location && File.exist?('.bzr')
+    if remote_branch_location && File.exist?('.git')
       desc "Publish branch to #{remote_branch_location}"
-      task 'publish:branch' => '.bzr' do |t|
+      task 'publish:branch' => '.git' do |t|
         sh publish_branch_command, :verbose => true
       end
       desc 'branch'
