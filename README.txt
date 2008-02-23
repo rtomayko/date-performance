@@ -63,7 +63,7 @@ Old versions and other dist formats are available at:
 
 A git repository is also available:
 
-    $ git clone http://tomayko.com/src/date-performance.git
+    $ git clone git://github.com/rtomayko/date-performance.git
 
 Background
 ----------
@@ -121,7 +121,7 @@ what happens.
 License
 -------
 
-MIT. See the LICENSE file included in the distribution for more 
+MIT. See the COPYING file included in the distribution for more 
 information.
 
 See Also
