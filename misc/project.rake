@@ -108,10 +108,12 @@ class Project
       attr_accessor_without_tracking(*names)
     end
 
+  public
+
     send :alias_method, :attr_accessor_without_tracking, :attr_accessor
     send :alias_method, :attr_accessor, :attr_accessor_with_tracking
-  end
 
+  end
 
 
   # The project's name. This should be short but may include spaces and
@@ -780,9 +782,18 @@ private
   def publish_doc_command
     "rsync -azP #{doc_dir}/ #{remote_doc_location}"
   end
+  
+  def temporary_git_repo_dir
+    ".git-#{Process.pid}"
+  end
 
   def publish_branch_command
-    "rsync -azP --delete --hard-links .git/ #{remote_branch_location}"
+  [ 
+    "git repack -d",
+    "git clone --bare -l . #{temporary_git_repo_dir}",
+    "git --bare --git-dir=#{temporary_git_repo_dir} update-server-info",
+    "rsync -azP --delete --hard-links #{temporary_git_repo_dir}/ #{remote_branch_location}" 
+  ].join(' && ')
   end
 
   def define_publish_tasks
@@ -801,7 +812,10 @@ private
     if remote_branch_location && File.exist?('.git')
       desc "Publish branch to #{remote_branch_location}"
       task 'publish:branch' => '.git' do |t|
-        sh publish_branch_command, :verbose => true
+        sh publish_branch_command, :verbose => true do |res,ok|
+          rm_rf temporary_git_repo_dir
+          fail "publish git repository failed." if ! ok
+        end
       end
       desc 'branch'
       task 'publish' => 'publish:branch'
