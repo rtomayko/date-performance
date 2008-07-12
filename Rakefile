@@ -11,9 +11,9 @@ Project.new "Date::Performance" do |p|
   p.author = 'Ryan Tomayko <r@tomayko.com>'
   p.rubyforge_project = 'wink'
 
-  p.remote_dist_location   = "tomayko.com:/dist/#{p.package_name}"
-  p.remote_branch_location = "tomayko.com:/src/#{p.package_name}.git"
-  p.remote_doc_location    = "tomayko.com:/src/#{p.package_name}"
+  p.remote_dist_location   = "gus@tomayko.com:/dist/#{p.package_name}"
+  p.remote_branch_location = "gus@tomayko.com:/src/#{p.package_name}.git"
+  p.remote_doc_location    = "gus@tomayko.com:/src/#{p.package_name}"
 end
 
 task :default => [ :compile, :test ]
