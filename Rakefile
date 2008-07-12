@@ -8,7 +8,8 @@ Project.new "Date::Performance" do |p|
   p.project_url = "http://tomayko.com/src/date-performance/"
   p.extra_files.include "ext/**/*.{rb,c,h}", "AUTHORS", "BENCHMARKS"
   p.configure_package {|spec| spec.extensions = FileList["ext/**/extconf.rb"].to_a }
-  p.author = 'Ryan Tomayko <rtomayko@gmail.com>'
+  p.author = 'Ryan Tomayko <r@tomayko.com>'
+  p.rubyforge_project = 'wink'
 
   p.remote_dist_location   = "tomayko.com:/dist/#{p.package_name}"
   p.remote_branch_location = "tomayko.com:/src/#{p.package_name}.git"
@@ -17,15 +18,9 @@ end
 
 task :default => [ :compile, :test ]
 
-file 'ChangeLog' => FileList['.bzr/*'] do |f|
-  sh "bzr log -v --gnu > #{f.name}"
-end
-
 file 'doc/index.txt' => 'README.txt' do |f|
   cp 'README.txt', f.name
 end
-
-file 'doc/changes.html' => 'ChangeLog'
 
 CLEAN.include [ "ext/*.{o,bundle}", "lib/*.{bundle,so,dll}" ]
 CLOBBER.include [ "ext/Makefile" ]
@@ -57,7 +52,7 @@ end
 desc "Run benchmarks"
 task :benchmark => [ 'benchmark.without', 'benchmark.with' ]
 
-# Extension =======================================================================================
+# Extension =================================================================
 
 DLEXT = Config::CONFIG['DLEXT']
 
@@ -80,3 +75,16 @@ end
 
 desc "Compiles all extensions"
 task :compile => [ "lib/date_performance.#{DLEXT}" ]
+
+# Rubyforge =================================================================
+
+VERS = Project.current.version
+PKGNAME = "dist/date-performance-#{VERS}"
+
+desc 'Publish new release to rubyforge'
+task :release => [ "#{PKGNAME}.gem", "#{PKGNAME}.tar.gz" ] do |t|
+  sh <<-end
+    rubyforge add_release wink date-performance #{VERS} #{PKGNAME}.gem &&
+    rubyforge add_file    wink date-performance #{VERS} #{PKGNAME}.tar.gz
+  end
+end

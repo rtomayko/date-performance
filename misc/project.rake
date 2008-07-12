@@ -212,6 +212,9 @@ class Project
   # new dependencies defined.
   attr_accessor :dependencies
 
+  # The rubyforge project
+  attr_accessor :rubyforge_project
+
   # A remote location where packages should published. This should be of the
   # form host.domain:/path/to/dir
   attr_accessor :remote_dist_location
@@ -265,6 +268,7 @@ class Project
     @package_configurator = nil
     @rdoc_configurator = nil
     @test_configurator = nil
+    @rubyforge_project = nil
     enhance(options, &b)
     define_tasks
   end
@@ -483,6 +487,7 @@ public
       s.extra_rdoc_files = rdoc_files
       s.rdoc_options.concat(rdoc_options)
       s.test_files = tests
+      s.rubyforge_project = rubyforge_project
       dependencies.each { |args| s.add_dependency(*args) }
       @package_configurator.call(s) if @package_configurator
     end
