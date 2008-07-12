@@ -96,4 +96,25 @@ class ExtensionTest < Test::Unit::TestCase
     assert_equal "2007-01-01T04:20:00+00:00", dt.strftime("%FT%T%:z")
   end
 
+  def test_constructor_with_negative_days
+    #leap year
+    month_ends = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    (1..12).each do |m|
+      d = Date.new(2008, m, -1)
+      assert_equal d.day, month_ends[m-1]
+    end
+    #normal year
+    month_ends = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    (1..12).each do |m|
+      d = Date.new(2009, m, -1)
+      assert_equal d.day, month_ends[m-1]
+    end
+    #before calendar reform for Italy
+    month_ends = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    (1..12).each do |m|
+      d = Date.new(1581, m, -1)
+      assert_equal d.day, month_ends[m-1]
+    end
+  end
+
 end

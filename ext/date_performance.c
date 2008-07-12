@@ -7,6 +7,7 @@
 
 #include <math.h>
 #include <ruby.h>
+#include <time.h>
 
 #define FLOOR(a) lrintf(floorf(a))
 #define FLOAT(a) (float)a
@@ -187,18 +188,37 @@ rb_date_new(int argc, VALUE * argv, VALUE self) {
       m    = (argc > 1 ? NUM2INT(argv[1]) : 1),
       d    = (argc > 2 ? NUM2INT(argv[2]) : 1);
   VALUE sg = (argc > 3 ? argv[3] : ITALY);
-  int jd = civil_to_jd(y, m, d, sg);
+  int jd = -1;
   struct mini_tm t;
-  jd_to_civil(jd, sg, &t);
-  if ( t.y != y || t.m != m || t.d != d ) {
-    rb_raise(rb_eArgError, "Invalid date: (%d, %d, %d)", y, m, d);
-    return Qnil;
-  }else{
-    VALUE ajd = jd_to_ajd(jd, INT2FIX(0), INT2FIX(0));
-    VALUE date = rb_funcall(self, id_new_bang, 3, ajd, INT2FIX(0), sg);
-    rb_ivar_set(date, id_ivar_civil, rb_ary_new3(3, INT2FIX(t.y), INT2FIX(t.m), INT2FIX(t.d)));
-    return date;
+  if (d < 0) {
+    int ny = (y * 12 + m) / 12;
+    int nm = (y * 12 + m) % 12;
+    nm = (nm + 1) / 1;
+    jd = civil_to_jd(ny, nm, d+1, sg);
+
+    VALUE ns = jd < 2299161 ? JULIAN : GREGORIAN;
+    jd_to_civil(jd-d, ns, &t);
+    if ( t.y != ny || t.m != nm || t.d != 1 ) {
+      rb_raise(rb_eArgError, "Invalid date: (%d, %d, %d)", y, m, d);
+      return Qnil;
+    }
+    jd_to_civil(jd, sg, &t);
+    if ( t.y != y || t.m != m ) {
+      rb_raise(rb_eArgError, "Invalid date: (%d, %d, %d)", y, m, d);
+      return Qnil;
+    }
+  } else {
+    jd = civil_to_jd(y, m, d, sg);
+    jd_to_civil(jd, sg, &t);
+    if ( t.y != y || t.m != m || t.d != d ) {
+      rb_raise(rb_eArgError, "Invalid date: (%d, %d, %d)", y, m, d);
+      return Qnil;
+    }
   }
+  VALUE ajd = jd_to_ajd(jd, INT2FIX(0), INT2FIX(0));
+  VALUE date = rb_funcall(self, id_new_bang, 3, ajd, INT2FIX(0), sg);
+  rb_ivar_set(date, id_ivar_civil, rb_ary_new3(3, INT2FIX(t.y), INT2FIX(t.m), INT2FIX(t.d)));
+  return date;
 }
 
 
