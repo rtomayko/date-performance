@@ -117,4 +117,23 @@ class ExtensionTest < Test::Unit::TestCase
     end
   end
 
+  def test_date_comparisons
+    #regular Date class comparison
+    d = Date.new(2008, 1, 1)
+    366.times do |i|
+        assert_equal( 0, d+i <=> d+i )
+        assert_equal(-1, d+i <=> d+i+1 )
+        assert_equal( 1, d+i+1 <=> d+i )
+    end
+
+    #DateTime comparison
+    dt1 = DateTime.new(2006,1,1,12,15,30)
+    dt2 = DateTime.new(2006,1,1,12,15,31)
+    dt3 = DateTime.new(2006,1,1,12,15,29)
+ 
+    assert_equal( 0, DateTime.new(2006,1,1,12,15,30) <=> dt1 )
+    assert_equal( 1, dt1 <=> dt3 )
+    assert_equal( -1, dt1 <=> dt2 )
+  end
+
 end
