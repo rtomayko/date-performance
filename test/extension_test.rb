@@ -134,6 +134,12 @@ class ExtensionTest < Test::Unit::TestCase
     assert_equal( 0, DateTime.new(2006,1,1,12,15,30) <=> dt1 )
     assert_equal( 1, dt1 <=> dt3 )
     assert_equal( -1, dt1 <=> dt2 )
+
+    #comparison with some random type
+    assert_equal nil, dt1 <=> "foo"
+
+    #comparison with Fixnum that represents ajd
+    assert_equal(-1, d <=> d.ajd.numerator )
   end
 
 end

@@ -341,19 +341,30 @@ rb_date_strptime(int argc, VALUE * argv, VALUE self)
 
 /*
  * Date::<=>(other)
- * Currently supports only Date's as 'other' argument - Fixnum is not supported.
 */
 static VALUE
 rb_date_compare(int argc, VALUE * argv, VALUE self)
 {
+  if (NIL_P(argv[0]))
+    return Qnil;
+  long other_den = -1;
+  long other_num = -1;
+  if (FIXNUM_P(argv[0])) {
+    //compare with argument as with astronomical julian day number
+    other_den = 1;
+    other_num = FIX2LONG(argv[0]);
+  } else if (rb_obj_is_kind_of(argv[0], rb_cDate)) {
+    VALUE other_date = argv[0];
+    VALUE other_ajd = rb_ivar_get(other_date, id_ivar_ajd);
+    other_den = FIX2LONG(rb_funcall(other_ajd, id_denominator, 0));
+    other_num = FIX2LONG(rb_funcall(other_ajd, id_numerator, 0));
+  } else {
+    return Qnil;
+  }
+  
   VALUE ajd = rb_ivar_get(self, id_ivar_ajd);
   long den = FIX2LONG(rb_funcall(ajd, id_denominator, 0));
   long num = FIX2LONG(rb_funcall(ajd, id_numerator, 0));
-
-  VALUE other_date = argv[0];
-  VALUE other_ajd = rb_ivar_get(other_date, id_ivar_ajd);
-  long other_den = FIX2LONG(rb_funcall(other_ajd, id_denominator, 0));
-  long other_num = FIX2LONG(rb_funcall(other_ajd, id_numerator, 0));
 
   long v = (num * other_den) - (other_num * den);
   if (v > 0)
