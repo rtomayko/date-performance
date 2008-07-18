@@ -9,7 +9,7 @@ class Date
   # The Date::Performance module is present when the performance enhacing extension 
   # has been loaded. It serves no other purpose.
   module Performance
-    VERSION = "0.4.6"
+    VERSION = "0.4.7"
   end
 
   # The extension replaces Date#strftime but falls back on the stock version when
