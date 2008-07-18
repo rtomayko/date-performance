@@ -22,6 +22,7 @@ static ID id_new;           /* :new */
 static ID id_new_bang;      /* :new! */
 static ID id_ivar_civil;    /* :@__civil__ */
 static ID id_jd;            /* :jd */
+static ID id_ivar_ajd;      /* :@ajd */
 static ID id_jd_to_civil;   /* :jd_to_civil */
 static ID id_ivar_sg;       /* :@sg */
 static ID id_numerator;     /* :numerator */
@@ -338,6 +339,42 @@ rb_date_strptime(int argc, VALUE * argv, VALUE self)
   return rb_funcall2(self, id_strptime_without_performance, argc, argv);
 }
 
+/*
+ * Date::<=>(other)
+*/
+static VALUE
+rb_date_compare(int argc, VALUE * argv, VALUE self)
+{
+  if (NIL_P(argv[0]))
+    return Qnil;
+  long other_den = -1;
+  long other_num = -1;
+  if (FIXNUM_P(argv[0])) {
+    //compare with argument as with astronomical julian day number
+    other_den = 1;
+    other_num = FIX2LONG(argv[0]);
+  } else if (rb_obj_is_kind_of(argv[0], rb_cDate)) {
+    VALUE other_date = argv[0];
+    VALUE other_ajd = rb_ivar_get(other_date, id_ivar_ajd);
+    other_den = FIX2LONG(rb_funcall(other_ajd, id_denominator, 0));
+    other_num = FIX2LONG(rb_funcall(other_ajd, id_numerator, 0));
+  } else {
+    return Qnil;
+  }
+  
+  VALUE ajd = rb_ivar_get(self, id_ivar_ajd);
+  long den = FIX2LONG(rb_funcall(ajd, id_denominator, 0));
+  long num = FIX2LONG(rb_funcall(ajd, id_numerator, 0));
+
+  long v = (num * other_den) - (other_num * den);
+  if (v > 0)
+    return INT2FIX(1);
+  else if (v < 0)
+    return INT2FIX(-1);
+  else
+    return INT2FIX(0);
+}
+
 
 VALUE
 Init_date_performance() {
@@ -358,6 +395,7 @@ Init_date_performance() {
   rb_define_method(rb_cDate, "civil",        rb_date_civil, 0);
   rb_define_method(rb_cDate, "sys_strftime", rb_date_strftime, -1);
   rb_define_method(rb_cDate, "strftime",     rb_date_strftime, -1);
+  rb_define_method(rb_cDate, "<=>",          rb_date_compare, -1);
 
   /* Date Singleton Methods */
   rb_define_singleton_method(rb_cDate, "civil_to_jd",   rb_date_civil_to_jd, -1);
@@ -383,6 +421,7 @@ Init_date_performance() {
   id_divmod = rb_intern("divmod");
   id_new = rb_intern("new");
   id_jd = rb_intern("jd");
+  id_ivar_ajd = rb_intern("@ajd");
   id_jd_to_civil = rb_intern("jd_to_civil");
   id_ivar_civil = rb_intern("@__civil__");
   id_ivar_sg = rb_intern("@sg");
