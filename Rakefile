@@ -18,8 +18,8 @@ end
 
 task :default => [ :compile, :test ]
 
-file 'doc/index.txt' => 'README.txt' do |f|
-  cp 'README.txt', f.name
+file 'doc/index.txt' => 'README.md' do |f|
+  cp 'README.md', f.name
 end
 
 CLEAN.include [ "ext/*.{o,bundle}", "lib/*.{bundle,so,dll}" ]
