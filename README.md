@@ -55,11 +55,7 @@ This package has been tested on the following platforms:
 
 The easiest way to install the package is to use RubyGems:
 
-    $ gem install date-performance --source=http://tomayko.com
-
-Old versions and other dist formats are available at:
-
-    http://tomayko.com/dist/date-performance/
+    $ gem install date-performance
 
 A git repository is also available:
 

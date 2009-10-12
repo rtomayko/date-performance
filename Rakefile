@@ -5,7 +5,7 @@ Project.new "Date::Performance" do |p|
   p.package_name = 'date-performance'
   p.version_file = 'lib/date/performance.rb'
   p.summary = "Adds some semblance of performance to Ruby's core Date class."
-  p.project_url = "http://tomayko.com/src/date-performance/"
+  p.project_url = "http://github.com/rtomayko/date-performance"
   p.extra_files.include "ext/**/*.{rb,c,h}", "AUTHORS", "BENCHMARKS"
   p.configure_package {|spec| spec.extensions = FileList["ext/**/extconf.rb"].to_a }
   p.author = 'Ryan Tomayko <r@tomayko.com>'
