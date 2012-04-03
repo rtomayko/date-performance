@@ -64,6 +64,16 @@ class ExtensionTest < Test::Unit::TestCase
     assert_equal Date.new(1912, 6, 23), Date.sys_strptime("1912-06-23", "%Y-%m-%d")
   end
 
+  def test_strptime_str_input_handling
+    assert_raise(TypeError) { Date.strptime(19120623, '%Y%m%d') }
+    assert_raise(TypeError) { Date.strptime(nil, '%Y%m%d') }
+  end
+
+  def test_strptime_fmt_input_handling
+    assert_raise(TypeError) { Date.strptime('19120623', 12345) }
+    assert_raise(TypeError) { Date.strptime('19120623', nil) }
+  end
+
   # This falls back on Ruby's strptime on BSD systems because BSD's strptime doesn't
   # handle years before 1900.
   def test_strptime_fallback
