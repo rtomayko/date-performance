@@ -1,7 +1,7 @@
 Date::Performance
 =================
 
-This package adds some semblance of performance to Ruby's core Date class 
+This package adds some semblance of performance to Ruby 1.8's core Date class 
 using a combination of different techniques:
 
 1. Implements various core *Date* methods in C. This is nowhere near a
