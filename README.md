@@ -21,6 +21,11 @@ using a combination of different techniques:
    types of repetitive date processing significantly. This file must be 
    required separately.
 
+Status
+------
+
+*This repository is no longer actively maintained by @rtomayko as of 2017-11-08. Issues and PRs documenting current issues have been intentionally left open for informational purposes.*
+
 Synopsis
 --------
 
