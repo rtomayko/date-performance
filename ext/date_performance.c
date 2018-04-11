@@ -301,6 +301,10 @@ rb_date_strptime(int argc, VALUE * argv, VALUE self)
   VALUE str = (argc > 0 ? argv[0] : rb_str_new2("-4712-01-01")),
         fmt = (argc > 1 ? argv[1] : DEFAULT_FORMAT),
         sg  = (argc > 2 ? argv[2] : ITALY);
+
+  Check_Type(str, T_STRING);
+  Check_Type(fmt, T_STRING);
+
   char * ps = RSTRING(str)->ptr;
   char * pf = RSTRING(fmt)->ptr;
   VALUE parts[4];
